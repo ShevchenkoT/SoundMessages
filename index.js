@@ -4,7 +4,7 @@ const express = require("express");
 const app = express();
 const http = require("http");
 
-// const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 const soundPath = path.join(__dirname, "sounds", "alert.wav");
 
 function playerCallback(err) {
@@ -32,6 +32,6 @@ app.get("/", (req, res) => {
   res.send("<h1>Game Card API</h2>");
 });
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log("Server started...");
 });
