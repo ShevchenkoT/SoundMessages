@@ -2,10 +2,10 @@ const player = require("play-sound")((opts = {}));
 const path = require("path");
 const express = require("express");
 const app = express();
-const http = require("http");
+const fs = require("fs");
 
-const port = process.env.PORT || 3000;
-const soundPath = path.join(__dirname, "sounds", "alert.wav");
+const PORT = process.env.PORT || 3000;
+const SOUNDS_FOLDER = "sounds";
 
 function playerCallback(err) {
   if (err) throw err;
@@ -26,12 +26,35 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
-  console.log("Post request");
-  player.play(soundPath, playerCallback);
-  res.send("<h1>Game Card API</h2>");
+  res.send("<h1>Sever crush alert</h2>");
 });
 
-app.listen(port, () => {
+app.post("/alert", (req, res) => {
+  try {
+    const { sound } = req.body;
+    const allSounds = getAllSounds();
+
+    const currentSound = allSounds.includes(sound) ? sound : null;
+
+    if (currentSound) {
+      const soundPath = path.join(__dirname, SOUNDS_FOLDER, currentSound);
+      player.play(soundPath, playerCallback);
+    }
+  } catch (error) {
+    console.log("err");
+  }
+});
+
+function getAllSounds() {
+  return fs.readdirSync(SOUNDS_FOLDER, (err, files) => {
+    if (err) throw err;
+    return files;
+  });
+}
+
+app.listen(PORT, () => {
   console.log("Server started...");
 });
