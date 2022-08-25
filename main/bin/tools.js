@@ -4,21 +4,19 @@ const fs = require("fs");
 const { SOUNDS_FOLDER } = require("../../environment.config");
 
 function postRequest(req, res) {
-  try {
-    const { sound } = req.body;
-    const allSounds = getAllSounds();
+  const { sound } = req.body;
+  const allSounds = getAllSounds();
+  const responseObj = { status: "success" };
+  const currentSound = allSounds.includes(sound) ? sound : null;
 
-    const currentSound = allSounds.includes(sound) ? sound : null;
-
-    if (currentSound) {
-      const soundPath = path.join(__dirname, SOUNDS_FOLDER, currentSound);
-      player.play(soundPath, playerCallback);
-      return;
-    }
-    console.log("Can't find sound");
-  } catch (err) {
-    console.log(err);
+  if (currentSound) {
+    const soundPath = path.join(__dirname, SOUNDS_FOLDER, currentSound);
+    player.play(soundPath, playerCallback);
+  } else {
+    responseObj.status = "denied";
+    console.info("Info: Can't find sound");
   }
+  res.end(JSON.stringify(responseObj));
 }
 
 function playerCallback(err) {

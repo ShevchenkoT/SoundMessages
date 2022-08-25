@@ -11,5 +11,5 @@ app.get("/", (req, res) => {
 app.post("/alert", postRequest);
 
 app.listen(port, () => {
-  console.log("Server started...");
+  console.info("Info: Server started...");
 });
