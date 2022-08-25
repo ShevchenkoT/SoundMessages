@@ -1,0 +1,64 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Sound Message",
+    "description": "",
+    "license": {}
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Sound Message"
+    }
+  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/alert": {
+      "post": {
+        "tags": ["Sound Message"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Alert sound file",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BodySoundMessage"
+            }
+          }
+        ],
+        "summary": "Success response",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SuccessRes"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "BodySoundMessage": {
+      "type": "object",
+      "properties": {
+        "sound": {
+          "type": "string",
+          "example": "alert.wav"
+        }
+      }
+    },
+    "SuccessRes": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
