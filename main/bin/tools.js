@@ -13,7 +13,9 @@ function postRequest(req, res) {
     if (currentSound) {
       const soundPath = path.join(__dirname, SOUNDS_FOLDER, currentSound);
       player.play(soundPath, playerCallback);
+      return;
     }
+    console.log("Can't find sound");
   } catch (err) {
     console.log(err);
   }
@@ -21,7 +23,6 @@ function postRequest(req, res) {
 
 function playerCallback(err) {
   if (err) throw err;
-  console.log("Play sound");
 }
 
 function getAllSounds() {
